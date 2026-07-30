@@ -7,13 +7,13 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// Servir archivos estáticos (index.html, manifest.json, etc.)
+// Servir archivos estáticos
 app.use(express.static(__dirname));
 
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 
 const SYSTEM_INSTRUCTION = `You are the SwissGate AI Guide 🇨🇭, an elite AI assistant embedded inside the SwissGate Core ecosystem.
-Your role is to assist users in understanding, navigating, and simulating operations across 55+ global payment gateways and financial modules (including Stripe, PayPal, Apple Pay, USDT Crypto Vault, SEPA Instant, and Swiss Escrow).
+Your role is to assist users in understanding, navigating, and simulating operations across 55+ global payment gateways and financial modules.
 Always respond professionally, concisely, and with maximum accuracy. You support all languages naturally.`;
 
 app.get('/', (req, res) => {
@@ -46,9 +46,5 @@ app.post('/api/chat', async (req, res) => {
     }
 });
 
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-    console.log(`SwissGate Core Server running on port ${PORT}`);
-});
-
+// Exportar la app para Serverless en Vercel
 module.exports = app;
