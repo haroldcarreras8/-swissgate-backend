@@ -3,77 +3,148 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SwissGate Ecosystem</title>
+    <title>SwissGate | Ecosistema Financiero & IA</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
-        body { background-color: #0b0f19; color: #f3f4f6; font-family: system-ui, -apple-system, sans-serif; }
-        .glass { background: rgba(17, 24, 39, 0.75); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.08); }
+        body { background-color: #07090e; color: #f3f4f6; font-family: system-ui, -apple-system, sans-serif; }
+        .glass { background: rgba(13, 17, 23, 0.85); backdrop-filter: blur(16px); border: 1px solid rgba(255, 255, 255, 0.06); }
         .swiss-red { background-color: #d80027; }
+        .swiss-red-text { color: #d80027; }
+        ::-webkit-scrollbar { width: 4px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.15); border-radius: 4px; }
     </style>
 </head>
-<body class="h-screen flex flex-col justify-between max-w-2xl mx-auto p-4">
+<body class="h-[100dvh] flex flex-col justify-between max-w-4xl mx-auto p-3 sm:p-6 overflow-hidden">
 
-    <!-- Header -->
-    <header class="glass rounded-2xl p-4 flex items-center justify-between mb-4 shadow-xl">
+    <!-- Header Minimalista Suizo -->
+    <header class="glass rounded-2xl p-4 flex items-center justify-between mb-3 shadow-2xl shrink-0">
         <div class="flex items-center space-x-3">
-            <div class="w-10 h-10 swiss-red rounded-xl flex items-center justify-center font-bold text-white shadow-lg">
+            <div class="w-10 h-10 swiss-red rounded-xl flex items-center justify-center font-bold text-white shadow-lg text-lg">
                 🇨🇭
             </div>
             <div>
-                <h1 class="font-bold text-lg tracking-wide text-white">SwissGate Core</h1>
-                <p class="text-xs text-emerald-400 flex items-center gap-1">
-                    <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span> Servidor Conectado
+                <h1 class="font-semibold text-base sm:text-lg tracking-tight text-white">SwissGate Core</h1>
+                <p class="text-[11px] text-emerald-400 flex items-center gap-1.5 font-medium">
+                    <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span> Sistema Operativo & IA Activo
                 </p>
             </div>
         </div>
-        <span class="text-xs bg-gray-800 text-gray-300 px-3 py-1 rounded-full border border-gray-700">v1.0 Pro</span>
+        <div class="flex items-center gap-2">
+            <button onclick="toggleModules()" class="glass px-3 py-1.5 rounded-xl text-xs font-medium text-gray-300 hover:text-white transition flex items-center gap-1.5 border border-gray-700">
+                <i class="fa-solid fa-grid-2"></i> Módulos (55+)
+            </button>
+            <span class="text-[10px] bg-red-500/10 text-red-400 px-2.5 py-1 rounded-full border border-red-500/25 hidden sm:inline-block font-mono">PRO V2</span>
+        </div>
     </header>
 
-    <!-- Chat Container -->
-    <main id="chat-box" class="flex-1 glass rounded-2xl p-4 overflow-y-auto space-y-4 mb-4 flex flex-col">
-        <div class="bg-gray-800/60 p-3 rounded-xl max-w-[85%] border border-gray-700/50 self-start">
-            <p class="text-sm text-gray-200">¡Hola Harold! Bienvenido a la consola inteligente de <strong>SwissGate</strong>. ¿En qué trabajamos hoy?</p>
-            <span class="text-[10px] text-gray-400 mt-1 block">Sistema Core</span>
+    <!-- Contenedor Principal -->
+    <main class="flex-1 glass rounded-2xl p-4 overflow-y-auto relative flex flex-col mb-3 shadow-inner">
+        
+        <!-- Vista de Chat -->
+        <div id="chat-view" class="flex-1 flex flex-col space-y-4 overflow-y-auto pr-1">
+            <div class="bg-gray-900/80 p-3.5 rounded-2xl max-w-[90%] sm:max-w-[80%] border border-gray-800 self-start shadow-sm">
+                <p class="text-xs sm:text-sm text-gray-200 leading-relaxed">Bienvenido al núcleo de alta seguridad de <strong>SwissGate</strong>. Las 55+ pasarelas de pago y el motor de IA con Qwen están listos. ¿Qué operación deseas ejecutar hoy?</p>
+                <span class="text-[9px] text-gray-500 mt-1.5 block font-mono">SwissGate Core AI • Cifrado SSL</span>
+            </div>
         </div>
+
+        <!-- Vista de Módulos (55+) -->
+        <div id="modules-view" class="hidden flex-1 overflow-y-auto pr-1 space-y-4">
+            <div class="flex items-center justify-between pb-2 border-b border-gray-800">
+                <h2 class="text-sm font-semibold text-white tracking-wide">Ecosistema de Pagos & Módulos (55+)</h2>
+                <button onclick="toggleModules()" class="text-xs text-gray-400 hover:text-white">Volver al Chat</button>
+            </div>
+            
+            <div class="grid grid-cols-2 sm:grid-cols-3 gap-2 text-xs">
+                <div class="glass p-3 rounded-xl border border-gray-800 hover:border-red-500/40 transition cursor-pointer" onclick="selectModule('Stripe Global Gateway')">
+                    <i class="fa-brands fa-stripe text-indigo-400 text-base mb-1"></i>
+                    <p class="font-medium text-white">Stripe Core</p>
+                    <span class="text-[9px] text-gray-500">Módulo #01</span>
+                </div>
+                <div class="glass p-3 rounded-xl border border-gray-800 hover:border-red-500/40 transition cursor-pointer" onclick="selectModule('PayPal Business API')">
+                    <i class="fa-brands fa-paypal text-blue-400 text-base mb-1"></i>
+                    <p class="font-medium text-white">PayPal Enterprise</p>
+                    <span class="text-[9px] text-gray-500">Módulo #02</span>
+                </div>
+                <div class="glass p-3 rounded-xl border border-gray-800 hover:border-red-500/40 transition cursor-pointer" onclick="selectModule('Apple Pay / Google Pay SDK')">
+                    <i class="fa-brands fa-apple text-gray-200 text-base mb-1"></i>
+                    <p class="font-medium text-white">Apple / Google Pay</p>
+                    <span class="text-[9px] text-gray-500">Módulo #03</span>
+                </div>
+                <div class="glass p-3 rounded-xl border border-gray-800 hover:border-red-500/40 transition cursor-pointer" onclick="selectModule('USDT / Crypto Vault Protocol')">
+                    <i class="fa-solid fa-coins text-amber-400 text-base mb-1"></i>
+                    <p class="font-medium text-white">Crypto Vault (USDT)</p>
+                    <span class="text-[9px] text-gray-500">Módulo #14</span>
+                </div>
+                <div class="glass p-3 rounded-xl border border-gray-800 hover:border-red-500/40 transition cursor-pointer" onclick="selectModule('SEPA Instant Banking Europe')">
+                    <i class="fa-solid fa-building-columns text-emerald-400 text-base mb-1"></i>
+                    <p class="font-medium text-white">SEPA European Bank</p>
+                    <span class="text-[9px] text-gray-500">Módulo #22</span>
+                </div>
+                <div class="glass p-3 rounded-xl border border-gray-800 hover:border-red-500/40 transition cursor-pointer" onclick="selectModule('Swiss Secure Escrow Service')">
+                    <i class="fa-solid fa-shield-halved text-red-500 text-base mb-1"></i>
+                    <p class="font-medium text-white">Swiss Escrow</p>
+                    <span class="text-[9px] text-gray-500">Módulo #55</span>
+                </div>
+            </div>
+            <p class="text-[11px] text-center text-gray-500 pt-2 font-mono">+49 pasarelas y servicios adicionales activos.</p>
+        </div>
+
     </main>
 
-    <!-- Input Bar -->
-    <footer class="glass rounded-2xl p-2 flex items-center gap-2">
-        <input type="text" id="user-input" placeholder="Escribe tu mensaje a la IA..." 
-            class="flex-1 bg-transparent px-4 py-3 text-sm text-white focus:outline-none placeholder-gray-500"
+    <!-- Barra de Entrada -->
+    <footer class="glass rounded-2xl p-2 flex items-center gap-2 shrink-0 shadow-xl">
+        <input type="text" id="user-input" placeholder="Escribe un comando o consulta a Qwen..." 
+            class="flex-1 bg-transparent px-3.5 py-2.5 text-xs sm:text-sm text-white focus:outline-none placeholder-gray-500 font-normal"
             onkeypress="if(event.key === 'Enter') sendMessage()">
-        <button onclick="sendMessage()" id="send-btn" class="swiss-red text-white p-3 rounded-xl hover:opacity-90 transition-all shadow-lg flex items-center justify-center">
-            <i class="fa-solid fa-paper-plane"></i>
+        <button onclick="sendMessage()" id="send-btn" class="swiss-red text-white w-10 h-10 rounded-xl hover:opacity-90 transition shadow-md flex items-center justify-center shrink-0">
+            <i class="fa-solid fa-paper-plane text-xs"></i>
         </button>
     </footer>
 
     <script>
         const API_URL = "https://swissgate-backend.vercel.app/api/chat";
 
+        function toggleModules() {
+            const chatView = document.getElementById("chat-view");
+            const modulesView = document.getElementById("modules-view");
+            chatView.classList.toggle("hidden");
+            modulesView.classList.toggle("hidden");
+        }
+
+        function selectModule(moduleName) {
+            toggleModules();
+            document.getElementById("user-input").value = `Configurar y auditar módulo de pago: ${moduleName}`;
+            sendMessage();
+        }
+
         async function sendMessage() {
             const input = document.getElementById("user-input");
-            const chatBox = document.getElementById("chat-box");
+            const chatBox = document.getElementById("chat-view");
             const text = input.value.trim();
 
             if (!text) return;
 
-            // Mostrar mensaje de Harold
+            if(!document.getElementById("modules-view").classList.contains("hidden")) {
+                toggleModules();
+            }
+
             chatBox.innerHTML += `
-                <div class="bg-red-600/20 border border-red-500/30 p-3 rounded-xl max-w-[85%] self-end">
-                    <p class="text-sm text-white">${text}</p>
-                    <span class="text-[10px] text-red-300/60 mt-1 block text-right">Tú</span>
+                <div class="bg-red-600/15 border border-red-500/25 p-3.5 rounded-2xl max-w-[90%] sm:max-w-[80%] self-end shadow-sm">
+                    <p class="text-xs sm:text-sm text-white leading-relaxed">${text}</p>
+                    <span class="text-[9px] text-red-300/60 mt-1 block text-right font-mono">Tú • SwissGate User</span>
                 </div>
             `;
 
             input.value = "";
             chatBox.scrollTop = chatBox.scrollHeight;
 
-            // Mensaje de Carga
             const loadingId = "load-" + Date.now();
             chatBox.innerHTML += `
-                <div id="${loadingId}" class="bg-gray-800/60 p-3 rounded-xl max-w-[85%] border border-gray-700/50 self-start animate-pulse">
-                    <p class="text-sm text-gray-400">Procesando consulta en SwissGate...</p>
+                <div id="${loadingId}" class="bg-gray-900/80 p-3.5 rounded-2xl max-w-[90%] sm:max-w-[80%] border border-gray-800 self-start animate-pulse">
+                    <p class="text-xs sm:text-sm text-gray-400">Consultando nodos de SwissGate e IA...</p>
                 </div>
             `;
             chatBox.scrollTop = chatBox.scrollHeight;
@@ -88,19 +159,19 @@
                 const data = await response.json();
                 document.getElementById(loadingId).remove();
 
-                const replyText = data.response || data.error || "Respuesta recibida del servidor.";
+                const replyText = data.response || data.error || "Respuesta recibida del servidor core.";
 
                 chatBox.innerHTML += `
-                    <div class="bg-gray-800/80 p-3 rounded-xl max-w-[85%] border border-gray-700 self-start">
-                        <p class="text-sm text-gray-100">${replyText}</p>
-                        <span class="text-[10px] text-gray-400 mt-1 block">SwissGate AI</span>
+                    <div class="bg-gray-900/90 p-3.5 rounded-2xl max-w-[90%] sm:max-w-[80%] border border-gray-800 self-start shadow-sm">
+                        <p class="text-xs sm:text-sm text-gray-100 leading-relaxed">${replyText}</p>
+                        <span class="text-[9px] text-gray-500 mt-1 block font-mono">SwissGate AI (Qwen Core)</span>
                     </div>
                 `;
             } catch (err) {
                 document.getElementById(loadingId).remove();
                 chatBox.innerHTML += `
-                    <div class="bg-red-900/40 p-3 rounded-xl max-w-[85%] border border-red-700 self-start">
-                        <p class="text-sm text-red-200">Error conectando con el servidor backend.</p>
+                    <div class="bg-red-950/40 p-3.5 rounded-2xl max-w-[90%] sm:max-w-[80%] border border-red-900/50 self-start">
+                        <p class="text-xs sm:text-sm text-red-300">Error de enlace con el servidor en Vercel.</p>
                     </div>
                 `;
             }
