@@ -10,7 +10,7 @@ app.use(helmet({ contentSecurityPolicy: false }));
 app.use(cors());
 app.use(express.json());
 
-// Servir la interfaz visual en inglés
+// Servir la interfaz visual index.html
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'index.html'));
 });
@@ -19,7 +19,7 @@ app.get('/api/test', (req, res) => {
     res.sendFile(path.join(__dirname, 'index.html'));
 });
 
-// Ruta de Chat con IA Políglota Automática
+// Ruta de Chat con IA Multilingüe
 app.post('/api/chat', async (req, res) => {
     try {
         const { message } = req.body;
