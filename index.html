@@ -1,193 +1,67 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SwissGate | Global Financial Ecosystem & AI</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-    <style>
-        body { background-color: #07090e; color: #f3f4f6; font-family: system-ui, -apple-system, sans-serif; }
-        .glass { background: rgba(13, 17, 23, 0.85); backdrop-filter: blur(16px); border: 1px solid rgba(255, 255, 255, 0.06); }
-        .swiss-red { background-color: #d80027; }
-        .swiss-red-text { color: #d80027; }
-        ::-webkit-scrollbar { width: 4px; }
-        ::-webkit-scrollbar-track { background: transparent; }
-        ::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.15); border-radius: 4px; }
-    </style>
-</head>
-<body class="h-[100dvh] flex flex-col justify-between max-w-4xl mx-auto p-3 sm:p-6 overflow-hidden">
+const express = require('express');
+const cors = require('cors');
+const helmet = require('helmet');
+const axios = require('axios');
+const path = require('path');
 
-    <!-- Header -->
-    <header class="glass rounded-2xl p-4 flex items-center justify-between mb-3 shadow-2xl shrink-0">
-        <div class="flex items-center space-x-3">
-            <div class="w-10 h-10 swiss-red rounded-xl flex items-center justify-center font-bold text-white shadow-lg text-lg">
-                🇨🇭
-            </div>
-            <div>
-                <h1 class="font-semibold text-base sm:text-lg tracking-tight text-white">SwissGate Core</h1>
-                <p class="text-[11px] text-emerald-400 flex items-center gap-1.5 font-medium">
-                    <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span> AI Guide Active
-                </p>
-            </div>
-        </div>
-        <div class="flex items-center gap-2">
-            <button onclick="toggleModules()" class="glass px-3 py-1.5 rounded-xl text-xs font-medium text-gray-300 hover:text-white transition flex items-center gap-1.5 border border-gray-700">
-                <i class="fa-solid fa-grid-2"></i> Modules (55+)
-            </button>
-            <span class="text-[10px] bg-red-500/10 text-red-400 px-2.5 py-1 rounded-full border border-red-500/25 hidden sm:inline-block font-mono">GLOBAL V2</span>
-        </div>
-    </header>
+const app = express();
 
-    <!-- Main Container -->
-    <main class="flex-1 glass rounded-2xl p-4 overflow-y-auto relative flex flex-col mb-3 shadow-inner">
-        
-        <!-- Chat View (English Welcome) -->
-        <div id="chat-view" class="flex-1 flex flex-col space-y-4 overflow-y-auto pr-1">
-            <div class="bg-gray-900/80 p-4 rounded-2xl max-w-[95%] sm:max-w-[85%] border border-gray-800 self-start shadow-sm space-y-2">
-                <p class="text-xs sm:text-sm text-gray-100 leading-relaxed font-medium">
-                    Hello! 👋 I am your <strong>SwissGate AI Guide 🇨🇭</strong>, powering the world's most advanced financial and operational ecosystem.
-                </p>
-                <p class="text-xs text-gray-300 leading-relaxed">
-                    I am configured to assist, audit, and navigate our <strong>55+ global payment gateways and operational modules</strong> (Stripe, PayPal, Crypto Vault, SEPA Instant, Swiss Escrow, and more).
-                </p>
-                <div class="bg-gray-800/50 p-2.5 rounded-xl border border-gray-700/50 text-[11px] text-gray-300 space-y-1">
-                    <p class="font-semibold text-white">💡 How to get started?</p>
-                    <p>• Click <strong>'Modules (55+)'</strong> above to explore the complete ecosystem suite.</p>
-                    <p>• Or ask me directly below: <em>"Explain how the Crypto Vault protocol works"</em> or <em>"Which gateway is best for European banking?"</em>.</p>
-                </div>
-                <span class="text-[9px] text-gray-500 block font-mono pt-1">SwissGate Core AI • Swiss Grade SSL Encryption</span>
-            </div>
-        </div>
+app.use(helmet({ contentSecurityPolicy: false }));
+app.use(cors());
+app.use(express.json());
 
-        <!-- Modules View (55+) -->
-        <div id="modules-view" class="hidden flex-1 overflow-y-auto pr-1 space-y-4">
-            <div class="flex items-center justify-between pb-2 border-b border-gray-800">
-                <h2 class="text-sm font-semibold text-white tracking-wide">Payment Ecosystem & Modules (55+)</h2>
-                <button onclick="toggleModules()" class="text-xs text-gray-400 hover:text-white">Back to Chat</button>
-            </div>
-            
-            <div class="grid grid-cols-2 sm:grid-cols-3 gap-2 text-xs">
-                <div class="glass p-3 rounded-xl border border-gray-800 hover:border-red-500/40 transition cursor-pointer" onclick="selectModule('Stripe Global Gateway')">
-                    <i class="fa-brands fa-stripe text-indigo-400 text-base mb-1"></i>
-                    <p class="font-medium text-white">Stripe Core</p>
-                    <span class="text-[9px] text-gray-500">Module #01</span>
-                </div>
-                <div class="glass p-3 rounded-xl border border-gray-800 hover:border-red-500/40 transition cursor-pointer" onclick="selectModule('PayPal Business API')">
-                    <i class="fa-brands fa-paypal text-blue-400 text-base mb-1"></i>
-                    <p class="font-medium text-white">PayPal Enterprise</p>
-                    <span class="text-[9px] text-gray-500">Module #02</span>
-                </div>
-                <div class="glass p-3 rounded-xl border border-gray-800 hover:border-red-500/40 transition cursor-pointer" onclick="selectModule('Apple Pay / Google Pay SDK')">
-                    <i class="fa-brands fa-apple text-gray-200 text-base mb-1"></i>
-                    <p class="font-medium text-white">Apple / Google Pay</p>
-                    <span class="text-[9px] text-gray-500">Module #03</span>
-                </div>
-                <div class="glass p-3 rounded-xl border border-gray-800 hover:border-red-500/40 transition cursor-pointer" onclick="selectModule('USDT / Crypto Vault Protocol')">
-                    <i class="fa-solid fa-coins text-amber-400 text-base mb-1"></i>
-                    <p class="font-medium text-white">Crypto Vault (USDT)</p>
-                    <span class="text-[9px] text-gray-500">Module #14</span>
-                </div>
-                <div class="glass p-3 rounded-xl border border-gray-800 hover:border-red-500/40 transition cursor-pointer" onclick="selectModule('SEPA Instant Banking Europe')">
-                    <i class="fa-solid fa-building-columns text-emerald-400 text-base mb-1"></i>
-                    <p class="font-medium text-white">SEPA European Bank</p>
-                    <span class="text-[9px] text-gray-500">Module #22</span>
-                </div>
-                <div class="glass p-3 rounded-xl border border-gray-800 hover:border-red-500/40 transition cursor-pointer" onclick="selectModule('Swiss Secure Escrow Service')">
-                    <i class="fa-solid fa-shield-halved text-red-500 text-base mb-1"></i>
-                    <p class="font-medium text-white">Swiss Escrow</p>
-                    <span class="text-[9px] text-gray-500">Module #55</span>
-                </div>
-            </div>
-            <p class="text-[11px] text-center text-gray-500 pt-2 font-mono">+49 regional gateways & banking protocols active.</p>
-        </div>
+// Servir la interfaz visual en inglés
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, 'index.html'));
+});
 
-    </main>
+app.get('/api/test', (req, res) => {
+    res.sendFile(path.join(__dirname, 'index.html'));
+});
 
-    <!-- Input Footer -->
-    <footer class="glass rounded-2xl p-2 flex items-center gap-2 shrink-0 shadow-xl">
-        <input type="text" id="user-input" placeholder="Ask your AI Guide or query a module..." 
-            class="flex-1 bg-transparent px-3.5 py-2.5 text-xs sm:text-sm text-white focus:outline-none placeholder-gray-500 font-normal"
-            onkeypress="if(event.key === 'Enter') sendMessage()">
-        <button onclick="sendMessage()" id="send-btn" class="swiss-red text-white w-10 h-10 rounded-xl hover:opacity-90 transition shadow-md flex items-center justify-center shrink-0">
-            <i class="fa-solid fa-paper-plane text-xs"></i>
-        </button>
-    </footer>
+// Ruta de Chat con IA Políglota Automática
+app.post('/api/chat', async (req, res) => {
+    try {
+        const { message } = req.body;
+        const apiKey = process.env.DASHSCOPE_API_KEY;
 
-    <script>
-        const API_URL = "https://swissgate-backend.vercel.app/api/chat";
-
-        function toggleModules() {
-            const chatView = document.getElementById("chat-view");
-            const modulesView = document.getElementById("modules-view");
-            chatView.classList.toggle("hidden");
-            modulesView.classList.toggle("hidden");
+        if (!apiKey) {
+            return res.status(500).json({ error: "Missing DASHSCOPE_API_KEY in Vercel environment variables." });
         }
 
-        function selectModule(moduleName) {
-            toggleModules();
-            document.getElementById("user-input").value = `Explain in detail the payment module: ${moduleName}`;
-            sendMessage();
-        }
-
-        async function sendMessage() {
-            const input = document.getElementById("user-input");
-            const chatBox = document.getElementById("chat-view");
-            const text = input.value.trim();
-
-            if (!text) return;
-
-            if(!document.getElementById("modules-view").classList.contains("hidden")) {
-                toggleModules();
+        const response = await axios.post(
+            'https://dashscope-intl.aliyuncs.com/compatible-mode/v1/chat/completions',
+            {
+                model: 'qwen-max',
+                messages: [
+                    { 
+                        role: 'system', 
+                        content: 'You are SwissGate AI Guide, the core intelligence for an elite global financial and payment ecosystem with 55+ modules. Your corporate interface is in English, but you must act as a native multilingual assistant: automatically detect the language of the user message (Spanish, French, Japanese, German, etc.) and reply fluently in that exact same language, maintaining a professional, high-security financial tone.' 
+                    },
+                    { role: 'user', content: message }
+                ]
+            },
+            {
+                headers: {
+                    'Authorization': `Bearer ${apiKey}`,
+                    'Content-Type': 'application/json'
+                }
             }
+        );
 
-            chatBox.innerHTML += `
-                <div class="bg-red-600/15 border border-red-500/25 p-3.5 rounded-2xl max-w-[90%] sm:max-w-[80%] self-end shadow-sm">
-                    <p class="text-xs sm:text-sm text-white leading-relaxed">${text}</p>
-                    <span class="text-[9px] text-red-300/60 mt-1 block text-right font-mono">You • User</span>
-                </div>
-            `;
+        const reply = response.data.choices[0].message.content;
+        res.json({ response: reply, status: "success" });
 
-            input.value = "";
-            chatBox.scrollTop = chatBox.scrollHeight;
+    } catch (error) {
+        console.error("Error communicating with Qwen:", error.response ? error.response.data : error.message);
+        res.status(500).json({ 
+            error: "Internal error processing AI request",
+            details: error.response ? error.response.data : error.message
+        });
+    }
+});
 
-            const loadingId = "load-" + Date.now();
-            chatBox.innerHTML += `
-                <div id="${loadingId}" class="bg-gray-900/80 p-3.5 rounded-2xl max-w-[90%] sm:max-w-[80%] border border-gray-800 self-start animate-pulse">
-                    <p class="text-xs sm:text-sm text-gray-400">SwissGate AI Guide is processing your request...</p>
-                </div>
-            `;
-            chatBox.scrollTop = chatBox.scrollHeight;
-
-            try {
-                const response = await fetch(API_URL, {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ message: text })
-                });
-
-                const data = await response.json();
-                document.getElementById(loadingId).remove();
-
-                const replyText = data.response || data.error || "Response received from core server.";
-
-                chatBox.innerHTML += `
-                    <div class="bg-gray-900/90 p-3.5 rounded-2xl max-w-[90%] sm:max-w-[80%] border border-gray-800 self-start shadow-sm">
-                        <p class="text-xs sm:text-sm text-gray-100 leading-relaxed">${replyText}</p>
-                        <span class="text-[9px] text-gray-500 mt-1 block font-mono">SwissGate AI Guide</span>
-                    </div>
-                `;
-            } catch (err) {
-                document.getElementById(loadingId).remove();
-                chatBox.innerHTML += `
-                    <div class="bg-red-950/40 p-3.5 rounded-2xl max-w-[90%] sm:max-w-[80%] border border-red-900/50 self-start">
-                        <p class="text-xs sm:text-sm text-red-300">Connection error with Vercel server.</p>
-                    </div>
-                `;
-            }
-
-            chatBox.scrollTop = chatBox.scrollHeight;
-        }
-    </script>
-</body>
-</html>
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`);
+});
