@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SwissGate Ecosystem</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        body { background-color: #0b0f19; color: #f3f4f6; font-family: system-ui, -apple-system, sans-serif; }
+        .glass { background: rgba(17, 24, 39, 0.75); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.08); }
+        .swiss-red { background-color: #d80027; }
+    </style>
+</head>
+<body class="h-screen flex flex-col justify-between max-w-2xl mx-auto p-4">
+
+    <!-- Header -->
+    <header class="glass rounded-2xl p-4 flex items-center justify-between mb-4 shadow-xl">
+        <div class="flex items-center space-x-3">
+            <div class="w-10 h-10 swiss-red rounded-xl flex items-center justify-center font-bold text-white shadow-lg">
+                🇨🇭
+            </div>
+            <div>
+                <h1 class="font-bold text-lg tracking-wide text-white">SwissGate Core</h1>
+                <p class="text-xs text-emerald-400 flex items-center gap-1">
+                    <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span> Servidor Conectado
+                </p>
+            </div>
+        </div>
+        <span class="text-xs bg-gray-800 text-gray-300 px-3 py-1 rounded-full border border-gray-700">v1.0 Pro</span>
+    </header>
+
+    <!-- Chat Container -->
+    <main id="chat-box" class="flex-1 glass rounded-2xl p-4 overflow-y-auto space-y-4 mb-4 flex flex-col">
+        <div class="bg-gray-800/60 p-3 rounded-xl max-w-[85%] border border-gray-700/50 self-start">
+            <p class="text-sm text-gray-200">¡Hola Harold! Bienvenido a la consola inteligente de <strong>SwissGate</strong>. ¿En qué trabajamos hoy?</p>
+            <span class="text-[10px] text-gray-400 mt-1 block">Sistema Core</span>
+        </div>
+    </main>
+
+    <!-- Input Bar -->
+    <footer class="glass rounded-2xl p-2 flex items-center gap-2">
+        <input type="text" id="user-input" placeholder="Escribe tu mensaje a la IA..." 
+            class="flex-1 bg-transparent px-4 py-3 text-sm text-white focus:outline-none placeholder-gray-500"
+            onkeypress="if(event.key === 'Enter') sendMessage()">
+        <button onclick="sendMessage()" id="send-btn" class="swiss-red text-white p-3 rounded-xl hover:opacity-90 transition-all shadow-lg flex items-center justify-center">
+            <i class="fa-solid fa-paper-plane"></i>
+        </button>
+    </footer>
+
+    <script>
+        const API_URL = "https://swissgate-backend.vercel.app/api/chat";
+
+        async function sendMessage() {
+            const input = document.getElementById("user-input");
+            const chatBox = document.getElementById("chat-box");
+            const text = input.value.trim();
+
+            if (!text) return;
+
+            // Mostrar mensaje de Harold
+            chatBox.innerHTML += `
+                <div class="bg-red-600/20 border border-red-500/30 p-3 rounded-xl max-w-[85%] self-end">
+                    <p class="text-sm text-white">${text}</p>
+                    <span class="text-[10px] text-red-300/60 mt-1 block text-right">Tú</span>
+                </div>
+            `;
+
+            input.value = "";
+            chatBox.scrollTop = chatBox.scrollHeight;
+
+            // Mensaje de Carga
+            const loadingId = "load-" + Date.now();
+            chatBox.innerHTML += `
+                <div id="${loadingId}" class="bg-gray-800/60 p-3 rounded-xl max-w-[85%] border border-gray-700/50 self-start animate-pulse">
+                    <p class="text-sm text-gray-400">Procesando consulta en SwissGate...</p>
+                </div>
+            `;
+            chatBox.scrollTop = chatBox.scrollHeight;
+
+            try {
+                const response = await fetch(API_URL, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ message: text })
+                });
+
+                const data = await response.json();
+                document.getElementById(loadingId).remove();
+
+                const replyText = data.response || data.error || "Respuesta recibida del servidor.";
+
+                chatBox.innerHTML += `
+                    <div class="bg-gray-800/80 p-3 rounded-xl max-w-[85%] border border-gray-700 self-start">
+                        <p class="text-sm text-gray-100">${replyText}</p>
+                        <span class="text-[10px] text-gray-400 mt-1 block">SwissGate AI</span>
+                    </div>
+                `;
+            } catch (err) {
+                document.getElementById(loadingId).remove();
+                chatBox.innerHTML += `
+                    <div class="bg-red-900/40 p-3 rounded-xl max-w-[85%] border border-red-700 self-start">
+                        <p class="text-sm text-red-200">Error conectando con el servidor backend.</p>
+                    </div>
+                `;
+            }
+
+            chatBox.scrollTop = chatBox.scrollHeight;
+        }
+    </script>
+</body>
+</html>
