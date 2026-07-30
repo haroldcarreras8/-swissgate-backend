@@ -1,28 +1,16 @@
 const express = require('express');
 const cors = require('cors');
-const path = require('path');
 const { GoogleGenerativeAI } = require('@google/generative-ai');
 
 const app = express();
 app.use(cors());
 app.use(express.json());
 
-// Servir archivos estáticos
-app.use(express.static(__dirname));
-
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 
 const SYSTEM_INSTRUCTION = `You are the SwissGate AI Guide 🇨🇭, an elite AI assistant embedded inside the SwissGate Core ecosystem.
 Your role is to assist users in understanding, navigating, and simulating operations across 55+ global payment gateways and financial modules.
 Always respond professionally, concisely, and with maximum accuracy. You support all languages naturally.`;
-
-app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'index.html'));
-});
-
-app.get('/manifest.json', (req, res) => {
-    res.sendFile(path.join(__dirname, 'manifest.json'));
-});
 
 app.post('/api/chat', async (req, res) => {
     try {
@@ -46,5 +34,4 @@ app.post('/api/chat', async (req, res) => {
     }
 });
 
-// Exportar la app para Serverless en Vercel
 module.exports = app;
