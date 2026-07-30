@@ -1,67 +1,54 @@
 const express = require('express');
 const cors = require('cors');
-const helmet = require('helmet');
-const axios = require('axios');
 const path = require('path');
+const { GoogleGenerativeAI } = require('@google/generative-ai');
 
 const app = express();
-
-app.use(helmet({ contentSecurityPolicy: false }));
 app.use(cors());
 app.use(express.json());
 
-// Servir la interfaz visual index.html
+// Servir archivos estáticos (index.html, manifest.json, etc.)
+app.use(express.static(__dirname));
+
+const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
+
+const SYSTEM_INSTRUCTION = `You are the SwissGate AI Guide 🇨🇭, an elite AI assistant embedded inside the SwissGate Core ecosystem.
+Your role is to assist users in understanding, navigating, and simulating operations across 55+ global payment gateways and financial modules (including Stripe, PayPal, Apple Pay, USDT Crypto Vault, SEPA Instant, and Swiss Escrow).
+Always respond professionally, concisely, and with maximum accuracy. You support all languages naturally.`;
+
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'index.html'));
 });
 
-app.get('/api/test', (req, res) => {
-    res.sendFile(path.join(__dirname, 'index.html'));
+app.get('/manifest.json', (req, res) => {
+    res.sendFile(path.join(__dirname, 'manifest.json'));
 });
 
-// Ruta de Chat con IA Multilingüe
 app.post('/api/chat', async (req, res) => {
     try {
         const { message } = req.body;
-        const apiKey = process.env.DASHSCOPE_API_KEY;
-
-        if (!apiKey) {
-            return res.status(500).json({ error: "Missing DASHSCOPE_API_KEY in Vercel environment variables." });
+        if (!message) {
+            return res.status(400).json({ error: "Message is required." });
         }
 
-        const response = await axios.post(
-            'https://dashscope-intl.aliyuncs.com/compatible-mode/v1/chat/completions',
-            {
-                model: 'qwen-max',
-                messages: [
-                    { 
-                        role: 'system', 
-                        content: 'You are SwissGate AI Guide, the core intelligence for an elite global financial and payment ecosystem with 55+ modules. Your corporate interface is in English, but you must act as a native multilingual assistant: automatically detect the language of the user message (Spanish, French, Japanese, German, etc.) and reply fluently in that exact same language, maintaining a professional, high-security financial tone.' 
-                    },
-                    { role: 'user', content: message }
-                ]
-            },
-            {
-                headers: {
-                    'Authorization': `Bearer ${apiKey}`,
-                    'Content-Type': 'application/json'
-                }
-            }
-        );
-
-        const reply = response.data.choices[0].message.content;
-        res.json({ response: reply, status: "success" });
-
-    } catch (error) {
-        console.error("Error communicating with Qwen:", error.response ? error.response.data : error.message);
-        res.status(500).json({ 
-            error: "Internal error processing AI request",
-            details: error.response ? error.response.data : error.message
+        const model = genAI.getGenerativeModel({ 
+            model: "gemini-1.5-flash",
+            systemInstruction: SYSTEM_INSTRUCTION
         });
+
+        const result = await model.generateContent(message);
+        const responseText = result.response.text();
+
+        return res.json({ response: responseText });
+    } catch (error) {
+        console.error("Error connecting to AI:", error);
+        return res.status(500).json({ error: "Failed to fetch response from AI Guide." });
     }
 });
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
+    console.log(`SwissGate Core Server running on port ${PORT}`);
 });
+
+module.exports = app;
