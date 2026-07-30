@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SwissGate | Ecosistema Financiero & IA</title>
+    <title>SwissGate | Global Financial Ecosystem & AI</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
@@ -18,7 +18,7 @@
 </head>
 <body class="h-[100dvh] flex flex-col justify-between max-w-4xl mx-auto p-3 sm:p-6 overflow-hidden">
 
-    <!-- Header Minimalista Suizo -->
+    <!-- Header -->
     <header class="glass rounded-2xl p-4 flex items-center justify-between mb-3 shadow-2xl shrink-0">
         <div class="flex items-center space-x-3">
             <div class="w-10 h-10 swiss-red rounded-xl flex items-center justify-center font-bold text-white shadow-lg text-lg">
@@ -27,76 +27,86 @@
             <div>
                 <h1 class="font-semibold text-base sm:text-lg tracking-tight text-white">SwissGate Core</h1>
                 <p class="text-[11px] text-emerald-400 flex items-center gap-1.5 font-medium">
-                    <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span> Sistema Operativo & IA Activo
+                    <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span> AI Guide Active
                 </p>
             </div>
         </div>
         <div class="flex items-center gap-2">
             <button onclick="toggleModules()" class="glass px-3 py-1.5 rounded-xl text-xs font-medium text-gray-300 hover:text-white transition flex items-center gap-1.5 border border-gray-700">
-                <i class="fa-solid fa-grid-2"></i> Módulos (55+)
+                <i class="fa-solid fa-grid-2"></i> Modules (55+)
             </button>
-            <span class="text-[10px] bg-red-500/10 text-red-400 px-2.5 py-1 rounded-full border border-red-500/25 hidden sm:inline-block font-mono">PRO V2</span>
+            <span class="text-[10px] bg-red-500/10 text-red-400 px-2.5 py-1 rounded-full border border-red-500/25 hidden sm:inline-block font-mono">GLOBAL V2</span>
         </div>
     </header>
 
-    <!-- Contenedor Principal -->
+    <!-- Main Container -->
     <main class="flex-1 glass rounded-2xl p-4 overflow-y-auto relative flex flex-col mb-3 shadow-inner">
         
-        <!-- Vista de Chat -->
+        <!-- Chat View (English Welcome) -->
         <div id="chat-view" class="flex-1 flex flex-col space-y-4 overflow-y-auto pr-1">
-            <div class="bg-gray-900/80 p-3.5 rounded-2xl max-w-[90%] sm:max-w-[80%] border border-gray-800 self-start shadow-sm">
-                <p class="text-xs sm:text-sm text-gray-200 leading-relaxed">Bienvenido al núcleo de alta seguridad de <strong>SwissGate</strong>. Las 55+ pasarelas de pago y el motor de IA con Qwen están listos. ¿Qué operación deseas ejecutar hoy?</p>
-                <span class="text-[9px] text-gray-500 mt-1.5 block font-mono">SwissGate Core AI • Cifrado SSL</span>
+            <div class="bg-gray-900/80 p-4 rounded-2xl max-w-[95%] sm:max-w-[85%] border border-gray-800 self-start shadow-sm space-y-2">
+                <p class="text-xs sm:text-sm text-gray-100 leading-relaxed font-medium">
+                    Hello! 👋 I am your <strong>SwissGate AI Guide 🇨🇭</strong>, powering the world's most advanced financial and operational ecosystem.
+                </p>
+                <p class="text-xs text-gray-300 leading-relaxed">
+                    I am configured to assist, audit, and navigate our <strong>55+ global payment gateways and operational modules</strong> (Stripe, PayPal, Crypto Vault, SEPA Instant, Swiss Escrow, and more).
+                </p>
+                <div class="bg-gray-800/50 p-2.5 rounded-xl border border-gray-700/50 text-[11px] text-gray-300 space-y-1">
+                    <p class="font-semibold text-white">💡 How to get started?</p>
+                    <p>• Click <strong>'Modules (55+)'</strong> above to explore the complete ecosystem suite.</p>
+                    <p>• Or ask me directly below: <em>"Explain how the Crypto Vault protocol works"</em> or <em>"Which gateway is best for European banking?"</em>.</p>
+                </div>
+                <span class="text-[9px] text-gray-500 block font-mono pt-1">SwissGate Core AI • Swiss Grade SSL Encryption</span>
             </div>
         </div>
 
-        <!-- Vista de Módulos (55+) -->
+        <!-- Modules View (55+) -->
         <div id="modules-view" class="hidden flex-1 overflow-y-auto pr-1 space-y-4">
             <div class="flex items-center justify-between pb-2 border-b border-gray-800">
-                <h2 class="text-sm font-semibold text-white tracking-wide">Ecosistema de Pagos & Módulos (55+)</h2>
-                <button onclick="toggleModules()" class="text-xs text-gray-400 hover:text-white">Volver al Chat</button>
+                <h2 class="text-sm font-semibold text-white tracking-wide">Payment Ecosystem & Modules (55+)</h2>
+                <button onclick="toggleModules()" class="text-xs text-gray-400 hover:text-white">Back to Chat</button>
             </div>
             
             <div class="grid grid-cols-2 sm:grid-cols-3 gap-2 text-xs">
                 <div class="glass p-3 rounded-xl border border-gray-800 hover:border-red-500/40 transition cursor-pointer" onclick="selectModule('Stripe Global Gateway')">
                     <i class="fa-brands fa-stripe text-indigo-400 text-base mb-1"></i>
                     <p class="font-medium text-white">Stripe Core</p>
-                    <span class="text-[9px] text-gray-500">Módulo #01</span>
+                    <span class="text-[9px] text-gray-500">Module #01</span>
                 </div>
                 <div class="glass p-3 rounded-xl border border-gray-800 hover:border-red-500/40 transition cursor-pointer" onclick="selectModule('PayPal Business API')">
                     <i class="fa-brands fa-paypal text-blue-400 text-base mb-1"></i>
                     <p class="font-medium text-white">PayPal Enterprise</p>
-                    <span class="text-[9px] text-gray-500">Módulo #02</span>
+                    <span class="text-[9px] text-gray-500">Module #02</span>
                 </div>
                 <div class="glass p-3 rounded-xl border border-gray-800 hover:border-red-500/40 transition cursor-pointer" onclick="selectModule('Apple Pay / Google Pay SDK')">
                     <i class="fa-brands fa-apple text-gray-200 text-base mb-1"></i>
                     <p class="font-medium text-white">Apple / Google Pay</p>
-                    <span class="text-[9px] text-gray-500">Módulo #03</span>
+                    <span class="text-[9px] text-gray-500">Module #03</span>
                 </div>
                 <div class="glass p-3 rounded-xl border border-gray-800 hover:border-red-500/40 transition cursor-pointer" onclick="selectModule('USDT / Crypto Vault Protocol')">
                     <i class="fa-solid fa-coins text-amber-400 text-base mb-1"></i>
                     <p class="font-medium text-white">Crypto Vault (USDT)</p>
-                    <span class="text-[9px] text-gray-500">Módulo #14</span>
+                    <span class="text-[9px] text-gray-500">Module #14</span>
                 </div>
                 <div class="glass p-3 rounded-xl border border-gray-800 hover:border-red-500/40 transition cursor-pointer" onclick="selectModule('SEPA Instant Banking Europe')">
                     <i class="fa-solid fa-building-columns text-emerald-400 text-base mb-1"></i>
                     <p class="font-medium text-white">SEPA European Bank</p>
-                    <span class="text-[9px] text-gray-500">Módulo #22</span>
+                    <span class="text-[9px] text-gray-500">Module #22</span>
                 </div>
                 <div class="glass p-3 rounded-xl border border-gray-800 hover:border-red-500/40 transition cursor-pointer" onclick="selectModule('Swiss Secure Escrow Service')">
                     <i class="fa-solid fa-shield-halved text-red-500 text-base mb-1"></i>
                     <p class="font-medium text-white">Swiss Escrow</p>
-                    <span class="text-[9px] text-gray-500">Módulo #55</span>
+                    <span class="text-[9px] text-gray-500">Module #55</span>
                 </div>
             </div>
-            <p class="text-[11px] text-center text-gray-500 pt-2 font-mono">+49 pasarelas y servicios adicionales activos.</p>
+            <p class="text-[11px] text-center text-gray-500 pt-2 font-mono">+49 regional gateways & banking protocols active.</p>
         </div>
 
     </main>
 
-    <!-- Barra de Entrada -->
+    <!-- Input Footer -->
     <footer class="glass rounded-2xl p-2 flex items-center gap-2 shrink-0 shadow-xl">
-        <input type="text" id="user-input" placeholder="Escribe un comando o consulta a Qwen..." 
+        <input type="text" id="user-input" placeholder="Ask your AI Guide or query a module..." 
             class="flex-1 bg-transparent px-3.5 py-2.5 text-xs sm:text-sm text-white focus:outline-none placeholder-gray-500 font-normal"
             onkeypress="if(event.key === 'Enter') sendMessage()">
         <button onclick="sendMessage()" id="send-btn" class="swiss-red text-white w-10 h-10 rounded-xl hover:opacity-90 transition shadow-md flex items-center justify-center shrink-0">
@@ -116,7 +126,7 @@
 
         function selectModule(moduleName) {
             toggleModules();
-            document.getElementById("user-input").value = `Configurar y auditar módulo de pago: ${moduleName}`;
+            document.getElementById("user-input").value = `Explain in detail the payment module: ${moduleName}`;
             sendMessage();
         }
 
@@ -134,7 +144,7 @@
             chatBox.innerHTML += `
                 <div class="bg-red-600/15 border border-red-500/25 p-3.5 rounded-2xl max-w-[90%] sm:max-w-[80%] self-end shadow-sm">
                     <p class="text-xs sm:text-sm text-white leading-relaxed">${text}</p>
-                    <span class="text-[9px] text-red-300/60 mt-1 block text-right font-mono">Tú • SwissGate User</span>
+                    <span class="text-[9px] text-red-300/60 mt-1 block text-right font-mono">You • User</span>
                 </div>
             `;
 
@@ -144,7 +154,7 @@
             const loadingId = "load-" + Date.now();
             chatBox.innerHTML += `
                 <div id="${loadingId}" class="bg-gray-900/80 p-3.5 rounded-2xl max-w-[90%] sm:max-w-[80%] border border-gray-800 self-start animate-pulse">
-                    <p class="text-xs sm:text-sm text-gray-400">Consultando nodos de SwissGate e IA...</p>
+                    <p class="text-xs sm:text-sm text-gray-400">SwissGate AI Guide is processing your request...</p>
                 </div>
             `;
             chatBox.scrollTop = chatBox.scrollHeight;
@@ -159,19 +169,19 @@
                 const data = await response.json();
                 document.getElementById(loadingId).remove();
 
-                const replyText = data.response || data.error || "Respuesta recibida del servidor core.";
+                const replyText = data.response || data.error || "Response received from core server.";
 
                 chatBox.innerHTML += `
                     <div class="bg-gray-900/90 p-3.5 rounded-2xl max-w-[90%] sm:max-w-[80%] border border-gray-800 self-start shadow-sm">
                         <p class="text-xs sm:text-sm text-gray-100 leading-relaxed">${replyText}</p>
-                        <span class="text-[9px] text-gray-500 mt-1 block font-mono">SwissGate AI (Qwen Core)</span>
+                        <span class="text-[9px] text-gray-500 mt-1 block font-mono">SwissGate AI Guide</span>
                     </div>
                 `;
             } catch (err) {
                 document.getElementById(loadingId).remove();
                 chatBox.innerHTML += `
                     <div class="bg-red-950/40 p-3.5 rounded-2xl max-w-[90%] sm:max-w-[80%] border border-red-900/50 self-start">
-                        <p class="text-xs sm:text-sm text-red-300">Error de enlace con el servidor en Vercel.</p>
+                        <p class="text-xs sm:text-sm text-red-300">Connection error with Vercel server.</p>
                     </div>
                 `;
             }
