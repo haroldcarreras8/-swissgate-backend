@@ -1,7 +1,6 @@
 {
   "name": "swissgate-backend",
   "version": "1.0.0",
-  "private": true,
   "dependencies": {
     "@google/generative-ai": "^0.21.0"
   }
