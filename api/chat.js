@@ -24,9 +24,9 @@ export default async function handler(req, res) {
 
     const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY || '');
     
-    // Modelo compatible y actualizado
+    // Usamos el nombre base soportado por la API
     const model = genAI.getGenerativeModel({ 
-      model: "gemini-1.5-flash-latest",
+      model: "gemini-1.5-flash",
       systemInstruction: "You are the SwissGate AI Guide 🇨🇭, an elite AI assistant powering the world's most advanced financial and operational ecosystem. Assist users professionally, concisely, and with maximum accuracy."
     });
 
