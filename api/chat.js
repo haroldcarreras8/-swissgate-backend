@@ -20,40 +20,41 @@ export default async function handler(req, res) {
       return res.status(400).json({ error: 'Message is required' });
     }
 
-    const apiKey = process.env.GEMINI_API_KEY;
+    // Usando OpenRouter (compatible con Qwen / DeepSeek / Llama)
+    const apiKey = process.env.OPENROUTER_API_KEY || process.env.QWEN_API_KEY;
     if (!apiKey) {
       return res.status(500).json({ error: 'API Key no configurada en Vercel' });
     }
 
-    // Endpoint en la versión ESTABLE (v1)
-    const url = `https://generativelanguage.googleapis.com/v1/models/gemini-1.5-flash:generateContent?key=${apiKey}`;
-    
-    const response = await fetch(url, {
+    const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
       method: "POST",
       headers: {
-        "Content-Type": "application/json",
+        "Authorization": `Bearer ${apiKey}`,
+        "Content-Type": "application/json"
       },
       body: JSON.stringify({
-        contents: [
+        model: "qwen/qwen-2.5-72b-instruct", // Modelo Qwen 2.5 super potente
+        messages: [
+          {
+            role: "system",
+            content: "You are the SwissGate AI Guide 🇨🇭, an elite AI assistant powering the world's most advanced financial and operational ecosystem. Assist users professionally, concisely, and with maximum accuracy."
+          },
           {
             role: "user",
-            parts: [{ text: message }]
+            content: message
           }
-        ],
-        systemInstruction: {
-          parts: [{ text: "You are the SwissGate AI Guide 🇨🇭, an elite AI assistant powering the world's most advanced financial and operational ecosystem. Assist users professionally, concisely, and with maximum accuracy." }]
-        }
+        ]
       })
     });
 
     const data = await response.json();
 
     if (!response.ok) {
-      console.error("Google API Error:", data);
-      return res.status(response.status).json({ error: data.error?.message || "Error consultando a Gemini" });
+      console.error("Qwen API Error:", data);
+      return res.status(response.status).json({ error: data.error?.message || "Error consultando a Qwen" });
     }
 
-    const replyText = data.candidates?.[0]?.content?.parts?.[0]?.text || "Sin respuesta";
+    const replyText = data.choices?.[0]?.message?.content || "Sin respuesta";
 
     return res.status(200).json({ reply: replyText });
   } catch (error) {
