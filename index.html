@@ -186,15 +186,81 @@
         <!-- Micrófono -->
         <div class="mic-container">
             <div class="mic-ring"></div>
-            <div class="mic-button" onclick="alert('Iniciando reconocimiento de voz Qwen...')">
+            <div class="mic-button" onclick="startVoiceRecognition()">
                 <span class="mic-icon">🎙️</span>
             </div>
         </div>
-        <div class="voice-hint">TOCA PARA HABLAR CON QWEN-AI</div>
+        <div class="voice-hint" id="voiceStatus">TOCA PARA HABLAR CON QWEN-AI</div>
 
         <!-- Botón Entrada -->
-        <button class="enter-btn" onclick="window.location.href='/api/chat'">INICIAR SESIÓN SEGURA</button>
+        <button class="enter-btn" onclick="openSecureSession()">INICIAR SESIÓN SEGURA</button>
     </div>
 
+    <script>
+        // Función para Iniciar Sesión o redirigir al Dashboard / Chat UI
+        function openSecureSession() {
+            // Si tienes una página de chat (ej: /chat.html o la vista principal del dashboard)
+            // Cambia esta ruta según la estructura de tu interfaz de chat
+            window.location.href = '/chat.html'; 
+        }
+
+        // Reconocimiento de Voz nativo
+        function startVoiceRecognition() {
+            const statusText = document.getElementById('voiceStatus');
+            
+            if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
+                alert('El reconocimiento de voz no está soportado en este navegador.');
+                return;
+            }
+
+            const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+            const recognition = new SpeechRecognition();
+
+            recognition.lang = 'es-ES';
+            recognition.interimResults = false;
+
+            recognition.onstart = function() {
+                statusText.innerText = "ESCUCHANDO...";
+                statusText.style.color = "#FF0000";
+            };
+
+            recognition.onspeechend = function() {
+                recognition.stop();
+                statusText.innerText = "PROCESANDO CON QWEN-AI...";
+                statusText.style.color = "#888";
+            };
+
+            recognition.onresult = async function(event) {
+                const transcript = event.results[0][0].transcript;
+                statusText.innerText = "ENVIANDO A CORE...";
+
+                try {
+                    const res = await fetch('/api/chat', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ message: transcript, tier: 'vip' })
+                    });
+                    const data = await res.json();
+                    
+                    alert('Qwen AI: ' + (data.reply || data.response || 'Sin respuesta'));
+                    statusText.innerText = "TOCA PARA HABLAR CON QWEN-AI";
+                    statusText.style.color = "#555";
+                } catch (err) {
+                    console.error(err);
+                    alert('Error conectando con SwissGate Core.');
+                    statusText.innerText = "TOCA PARA HABLAR CON QWEN-AI";
+                    statusText.style.color = "#555";
+                }
+            };
+
+            recognition.onerror = function(event) {
+                console.error("Speech Error:", event.error);
+                statusText.innerText = "ERROR DE VOZ. REINTENTAR";
+                statusText.style.color = "#FF0000";
+            };
+
+            recognition.start();
+        }
+    </script>
 </body>
 </html>
