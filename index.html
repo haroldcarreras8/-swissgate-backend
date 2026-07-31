@@ -1,207 +1,200 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SwissGate</title>
-    
-    <!-- Manifest -->
-    <link rel="manifest" href="/manifest.json">
-    <meta name="mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="theme-color" content="#d80027">
-
-    <!-- Iconos con imagen PNG real -->
-    <link rel="icon" type="image/png" sizes="512x512" href="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f3/Flag_of_Switzerland.svg/512px-Flag_of_Switzerland.svg.png">
-    <link rel="apple-touch-icon" href="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f3/Flag_of_Switzerland.svg/512px-Flag_of_Switzerland.svg.png">
-
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <title>SwissGate Core</title>
     <style>
-        body { background-color: #07090e; color: #f3f4f6; font-family: system-ui, -apple-system, sans-serif; }
-        .glass { background: rgba(13, 17, 23, 0.85); backdrop-filter: blur(16px); border: 1px solid rgba(255, 255, 255, 0.06); }
-        .swiss-red { background-color: #d80027; }
-        ::-webkit-scrollbar { width: 4px; }
-        ::-webkit-scrollbar-track { background: transparent; }
-        ::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.15); border-radius: 4px; }
+        /* Reset y Base */
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            background-color: #000000;
+            color: #ffffff;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            background: radial-gradient(circle at center, #0a0a0a 0%, #000000 100%);
+        }
+
+        /* Contenedor Principal */
+        .container {
+            text-align: center;
+            max-width: 600px;
+            padding: 20px;
+            animation: fadeIn 1.5s ease-out;
+        }
+
+        /* Tipografía Apple-Style */
+        .triad {
+            font-size: 10px;
+            letter-spacing: 4px;
+            color: #444;
+            text-transform: uppercase;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+        
+        h1 {
+            font-size: 48px;
+            font-weight: 200; /* Letra fina estilo Apple */
+            letter-spacing: -1px;
+            margin-bottom: 5px;
+            background: linear-gradient(to bottom, #fff, #aaa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .subtitle {
+            font-size: 12px;
+            letter-spacing: 3px;
+            color: #666;
+            margin-bottom: 40px;
+        }
+
+        /* Caja de Descripción */
+        .description-box {
+            margin-bottom: 50px;
+            padding: 0 20px;
+        }
+        
+        .desc-title {
+            color: #FF0000; /* Rojo Suizo */
+            font-size: 11px;
+            font-weight: bold;
+            letter-spacing: 2px;
+            margin-bottom: 10px;
+        }
+
+        .desc-text {
+            color: #888;
+            font-size: 14px;
+            line-height: 1.6;
+            font-weight: 300;
+        }
+
+        .modules-badge {
+            display: inline-block;
+            margin-top: 20px;
+            border: 1px solid #222;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 9px;
+            color: #444;
+            letter-spacing: 1px;
+        }
+
+        /* Micrófono Pulsante */
+        .mic-container {
+            position: relative;
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .mic-ring {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            animation: pulse 2s infinite;
+        }
+
+        .mic-button {
+            width: 60px;
+            height: 60px;
+            background: #111;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid #333;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 2;
+        }
+
+        .mic-button:hover {
+            background: #222;
+            border-color: #555;
+            transform: scale(1.05);
+        }
+
+        .mic-icon { font-size: 24px; }
+
+        .voice-hint {
+            font-size: 11px;
+            color: #555;
+            letter-spacing: 1px;
+            margin-bottom: 40px;
+        }
+
+        /* Botón de Entrada */
+        .enter-btn {
+            background: transparent;
+            border: none;
+            color: #fff;
+            font-size: 11px;
+            letter-spacing: 2px;
+            font-weight: bold;
+            opacity: 0.6;
+            cursor: pointer;
+            transition: opacity 0.3s;
+            text-transform: uppercase;
+        }
+        
+        .enter-btn:hover { opacity: 1; }
+
+        /* Animaciones */
+        @keyframes pulse {
+            0% { transform: scale(1); opacity: 0.5; }
+            50% { transform: scale(1.3); opacity: 0; }
+            100% { transform: scale(1); opacity: 0; }
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
     </style>
 </head>
-<body class="h-[100dvh] flex flex-col justify-between max-w-4xl mx-auto p-3 sm:p-6 overflow-hidden">
+<body>
 
-    <!-- Header -->
-    <header class="glass rounded-2xl p-4 flex items-center justify-between mb-3 shadow-2xl shrink-0">
-        <div class="flex items-center space-x-3">
-            <div class="w-10 h-10 swiss-red rounded-xl flex items-center justify-center shadow-lg shadow-red-900/40 border border-red-400/30 overflow-hidden shrink-0">
-                <svg class="w-6 h-6 text-white fill-current" viewBox="0 0 100 100">
-                    <rect width="100" height="100" fill="#d80027"/>
-                    <rect x="40" y="18" width="20" height="64" fill="#ffffff"/>
-                    <rect x="18" y="40" width="64" height="20" fill="#ffffff"/>
-                </svg>
-            </div>
-            <div>
-                <h1 class="font-semibold text-base sm:text-lg tracking-tight text-white">SwissGate Core</h1>
-                <p class="text-[11px] text-emerald-400 flex items-center gap-1.5 font-medium">
-                    <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span> AI Guide Active
-                </p>
-            </div>
-        </div>
-        <div class="flex items-center gap-2">
-            <button onclick="toggleModules()" class="glass px-3 py-1.5 rounded-xl text-xs font-medium text-gray-300 hover:text-white transition flex items-center gap-1.5 border border-gray-700">
-                <i class="fa-solid fa-grid-2"></i> Modules (55+)
-            </button>
-            <span class="text-[10px] bg-red-500/10 text-red-400 px-2.5 py-1 rounded-full border border-red-500/25 hidden sm:inline-block font-mono">GLOBAL V2</span>
-        </div>
-    </header>
+    <div class="container">
+        <!-- Header Tríada -->
+        <div class="triad">NASA • PENTAGON • SWISS</div>
+        <h1>SWISSGATE</h1>
+        <div class="subtitle">ECOSYSTEM v1.0</div>
 
-    <!-- Main Container -->
-    <main class="flex-1 glass rounded-2xl p-4 overflow-y-auto relative flex flex-col mb-3 shadow-inner">
-        
-        <!-- Chat View -->
-        <div id="chat-view" class="flex-1 flex flex-col space-y-4 overflow-y-auto pr-1">
-            <div class="bg-gray-900/80 p-4 rounded-2xl max-w-[95%] sm:max-w-[85%] border border-gray-800 self-start shadow-sm space-y-2">
-                <p class="text-xs sm:text-sm text-gray-100 leading-relaxed font-medium">
-                    Hello! 👋 I am your <strong>SwissGate AI Guide 🇨🇭</strong>, powering the world's most advanced financial and operational ecosystem.
-                </p>
-                <p class="text-xs text-gray-300 leading-relaxed">
-                    I am configured to assist, audit, and navigate our <strong>55+ global payment gateways and operational modules</strong> (Stripe, PayPal, Crypto Vault, SEPA Instant, Swiss Escrow, and more).
-                </p>
-                <div class="bg-gray-800/50 p-2.5 rounded-xl border border-gray-700/50 text-[11px] text-gray-300 space-y-1">
-                    <p class="font-semibold text-white">💡 How to get started?</p>
-                    <p>• Click <strong>'Modules (55+)'</strong> above to explore the complete ecosystem suite.</p>
-                    <p>• Or ask me directly below in <strong>any language</strong> (Español, English, Deutsch, Français, 日本語, etc.).</p>
-                </div>
-                <span class="text-[9px] text-gray-500 block font-mono pt-1">SwissGate Core AI • Swiss Grade SSL Encryption</span>
-            </div>
+        <!-- Descripción -->
+        <div class="description-box">
+            <div class="desc-title">LA TRÍADA DE PODER</div>
+            <p class="desc-text">
+                Ingeniería de precisión espacial. Seguridad de grado militar.<br>
+                Privacidad bancaria helvética.
+            </p>
+            <div class="modules-badge">55 MÓDULOS ACTIVOS</div>
         </div>
 
-        <!-- Modules View (55+) -->
-        <div id="modules-view" class="hidden flex-1 overflow-y-auto pr-1 space-y-4">
-            <div class="flex items-center justify-between pb-2 border-b border-gray-800">
-                <h2 class="text-sm font-semibold text-white tracking-wide">Payment Ecosystem & Modules (55+)</h2>
-                <button onclick="toggleModules()" class="text-xs text-gray-400 hover:text-white">Back to Chat</button>
+        <!-- Micrófono -->
+        <div class="mic-container">
+            <div class="mic-ring"></div>
+            <div class="mic-button" onclick="alert('Iniciando reconocimiento de voz Qwen...')">
+                <span class="mic-icon">🎙️</span>
             </div>
-            
-            <div class="grid grid-cols-2 sm:grid-cols-3 gap-2 text-xs">
-                <div class="glass p-3 rounded-xl border border-gray-800 hover:border-red-500/40 transition cursor-pointer" onclick="selectModule('Stripe Global Gateway')">
-                    <i class="fa-brands fa-stripe text-indigo-400 text-base mb-1"></i>
-                    <p class="font-medium text-white">Stripe Core</p>
-                    <span class="text-[9px] text-gray-500">Module #01</span>
-                </div>
-                <div class="glass p-3 rounded-xl border border-gray-800 hover:border-red-500/40 transition cursor-pointer" onclick="selectModule('PayPal Business API')">
-                    <i class="fa-brands fa-paypal text-blue-400 text-base mb-1"></i>
-                    <p class="font-medium text-white">PayPal Enterprise</p>
-                    <span class="text-[9px] text-gray-500">Module #02</span>
-                </div>
-                <div class="glass p-3 rounded-xl border border-gray-800 hover:border-red-500/40 transition cursor-pointer" onclick="selectModule('Apple Pay / Google Pay SDK')">
-                    <i class="fa-brands fa-apple text-gray-200 text-base mb-1"></i>
-                    <p class="font-medium text-white">Apple / Google Pay</p>
-                    <span class="text-[9px] text-gray-500">Module #03</span>
-                </div>
-                <div class="glass p-3 rounded-xl border border-gray-800 hover:border-red-500/40 transition cursor-pointer" onclick="selectModule('USDT / Crypto Vault Protocol')">
-                    <i class="fa-solid fa-coins text-amber-400 text-base mb-1"></i>
-                    <p class="font-medium text-white">Crypto Vault (USDT)</p>
-                    <span class="text-[9px] text-gray-500">Module #14</span>
-                </div>
-                <div class="glass p-3 rounded-xl border border-gray-800 hover:border-red-500/40 transition cursor-pointer" onclick="selectModule('SEPA Instant Banking Europe')">
-                    <i class="fa-solid fa-building-columns text-emerald-400 text-base mb-1"></i>
-                    <p class="font-medium text-white">SEPA European Bank</p>
-                    <span class="text-[9px] text-gray-500">Module #22</span>
-                </div>
-                <div class="glass p-3 rounded-xl border border-gray-800 hover:border-red-500/40 transition cursor-pointer" onclick="selectModule('Swiss Secure Escrow Service')">
-                    <i class="fa-solid fa-shield-halved text-red-500 text-base mb-1"></i>
-                    <p class="font-medium text-white">Swiss Escrow</p>
-                    <span class="text-[9px] text-gray-500">Module #55</span>
-                </div>
-            </div>
-            <p class="text-[11px] text-center text-gray-500 pt-2 font-mono">+49 regional gateways & banking protocols active.</p>
         </div>
+        <div class="voice-hint">TOCA PARA HABLAR CON QWEN-AI</div>
 
-    </main>
+        <!-- Botón Entrada -->
+        <button class="enter-btn" onclick="window.location.href='/api/chat'">INICIAR SESIÓN SEGURA</button>
+    </div>
 
-    <!-- Input Footer -->
-    <footer class="glass rounded-2xl p-2 flex items-center gap-2 shrink-0 shadow-xl">
-        <input type="text" id="user-input" placeholder="Ask your AI Guide in any language..." 
-            class="flex-1 bg-transparent px-3.5 py-2.5 text-xs sm:text-sm text-white focus:outline-none placeholder-gray-500 font-normal"
-            onkeypress="if(event.key === 'Enter') sendMessage()">
-        <button onclick="sendMessage()" id="send-btn" class="swiss-red text-white w-10 h-10 rounded-xl hover:opacity-90 transition shadow-md flex items-center justify-center shrink-0">
-            <i class="fa-solid fa-paper-plane text-xs"></i>
-        </button>
-    </footer>
-
-    <script>
-        const API_URL = "https://swissgate-backend.vercel.app/api/chat";
-
-        function toggleModules() {
-            const chatView = document.getElementById("chat-view");
-            const modulesView = document.getElementById("modules-view");
-            chatView.classList.toggle("hidden");
-            modulesView.classList.toggle("hidden");
-        }
-
-        function selectModule(moduleName) {
-            toggleModules();
-            document.getElementById("user-input").value = `Explain in detail the payment module: ${moduleName}`;
-            sendMessage();
-        }
-
-        async function sendMessage() {
-            const input = document.getElementById("user-input");
-            const chatBox = document.getElementById("chat-view");
-            const text = input.value.trim();
-
-            if (!text) return;
-
-            if(!document.getElementById("modules-view").classList.contains("hidden")) {
-                toggleModules();
-            }
-
-            chatBox.innerHTML += `
-                <div class="bg-red-600/15 border border-red-500/25 p-3.5 rounded-2xl max-w-[90%] sm:max-w-[80%] self-end shadow-sm">
-                    <p class="text-xs sm:text-sm text-white leading-relaxed">${text}</p>
-                    <span class="text-[9px] text-red-300/60 mt-1 block text-right font-mono">You • User</span>
-                </div>
-            `;
-
-            input.value = "";
-            chatBox.scrollTop = chatBox.scrollHeight;
-
-            const loadingId = "load-" + Date.now();
-            chatBox.innerHTML += `
-                <div id="${loadingId}" class="bg-gray-900/80 p-3.5 rounded-2xl max-w-[90%] sm:max-w-[80%] border border-gray-800 self-start animate-pulse">
-                    <p class="text-xs sm:text-sm text-gray-400">SwissGate AI Guide is processing your request...</p>
-                </div>
-            `;
-            chatBox.scrollTop = chatBox.scrollHeight;
-
-            try {
-                const response = await fetch(API_URL, {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ message: text })
-                });
-
-                const data = await response.json();
-                document.getElementById(loadingId).remove();
-
-                const replyText = data.response || data.error || "Response received from core server.";
-
-                chatBox.innerHTML += `
-                    <div class="bg-gray-900/90 p-3.5 rounded-2xl max-w-[90%] sm:max-w-[80%] border border-gray-800 self-start shadow-sm">
-                        <p class="text-xs sm:text-sm text-gray-100 leading-relaxed">${replyText}</p>
-                        <span class="text-[9px] text-gray-500 mt-1 block font-mono">SwissGate AI Guide</span>
-                    </div>
-                `;
-            } catch (err) {
-                document.getElementById(loadingId).remove();
-                chatBox.innerHTML += `
-                    <div class="bg-red-950/40 p-3.5 rounded-2xl max-w-[90%] sm:max-w-[80%] border border-red-900/50 self-start">
-                        <p class="text-xs sm:text-sm text-red-300">Connection error with Vercel server.</p>
-                    </div>
-                `;
-            }
-
-            chatBox.scrollTop = chatBox.scrollHeight;
-        }
-    </script>
 </body>
 </html>
