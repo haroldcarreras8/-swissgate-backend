@@ -20,10 +20,9 @@ export default async function handler(req, res) {
       return res.status(400).json({ error: 'Message is required' });
     }
 
-    // Usando OpenRouter (compatible con Qwen / DeepSeek / Llama)
-    const apiKey = process.env.OPENROUTER_API_KEY || process.env.QWEN_API_KEY;
+    const apiKey = process.env.OPENROUTER_API_KEY;
     if (!apiKey) {
-      return res.status(500).json({ error: 'API Key no configurada en Vercel' });
+      return res.status(500).json({ error: 'API Key de OpenRouter no configurada en Vercel' });
     }
 
     const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
@@ -33,7 +32,7 @@ export default async function handler(req, res) {
         "Content-Type": "application/json"
       },
       body: JSON.stringify({
-        model: "qwen/qwen-2.5-72b-instruct", // Modelo Qwen 2.5 super potente
+        model: "qwen/qwen-2.5-72b-instruct",
         messages: [
           {
             role: "system",
@@ -50,8 +49,8 @@ export default async function handler(req, res) {
     const data = await response.json();
 
     if (!response.ok) {
-      console.error("Qwen API Error:", data);
-      return res.status(response.status).json({ error: data.error?.message || "Error consultando a Qwen" });
+      console.error("OpenRouter API Error:", data);
+      return res.status(response.status).json({ error: data.error?.message || "Error consultando a la IA" });
     }
 
     const replyText = data.choices?.[0]?.message?.content || "Sin respuesta";
