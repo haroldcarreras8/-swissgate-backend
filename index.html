@@ -1,166 +1,166 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SwissGate Core</title>
+    <title>SwissGate Core | Ultra-Secure Ecosystem</title>
     <style>
-        /* Reset y Base */
+        /* Apple-Style Reset & Base */
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body {
             background-color: #000000;
             color: #ffffff;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, sans-serif;
             height: 100vh;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
             overflow: hidden;
-            background: radial-gradient(circle at center, #0a0a0a 0%, #000000 100%);
+            background: radial-gradient(circle at 50% 30%, #111111 0%, #000000 70%);
         }
 
-        /* Contenedor Principal */
         .container {
             text-align: center;
-            max-width: 600px;
+            max-width: 650px;
             padding: 20px;
-            animation: fadeIn 1.5s ease-out;
+            animation: fadeIn 1.2s cubic-bezier(0.2, 0.8, 0.2, 1);
         }
 
-        /* Tipografía Apple-Style */
+        /* Typography */
         .triad {
-            font-size: 10px;
-            letter-spacing: 4px;
-            color: #444;
+            font-size: 9px;
+            letter-spacing: 5px;
+            color: #555;
             text-transform: uppercase;
-            margin-bottom: 15px;
+            margin-bottom: 20px;
             font-weight: 600;
         }
         
         h1 {
-            font-size: 48px;
-            font-weight: 200; /* Letra fina estilo Apple */
-            letter-spacing: -1px;
+            font-size: 52px;
+            font-weight: 200;
+            letter-spacing: -2px;
             margin-bottom: 5px;
-            background: linear-gradient(to bottom, #fff, #aaa);
+            background: linear-gradient(180deg, #ffffff 0%, #888888 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
 
-        .subtitle {
-            font-size: 12px;
-            letter-spacing: 3px;
-            color: #666;
-            margin-bottom: 40px;
-        }
-
-        /* Caja de Descripción */
-        .description-box {
-            margin-bottom: 50px;
-            padding: 0 20px;
-        }
-        
-        .desc-title {
-            color: #FF0000; /* Rojo Suizo */
-            font-size: 11px;
-            font-weight: bold;
+        .version {
+            font-size: 10px;
+            color: #444;
             letter-spacing: 2px;
-            margin-bottom: 10px;
+            margin-bottom: 50px;
+            border-bottom: 1px solid #222;
+            display: inline-block;
+            padding-bottom: 5px;
         }
 
-        .desc-text {
-            color: #888;
-            font-size: 14px;
-            line-height: 1.6;
+        /* The 55+ Modules Description Box */
+        .intel-box {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 60px;
+            backdrop-filter: blur(10px);
+        }
+
+        .intel-title {
+            color: #FF0000; /* Swiss Red Accent */
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            margin-bottom: 12px;
+            text-transform: uppercase;
+        }
+
+        .intel-text {
+            color: #999;
+            font-size: 13px;
+            line-height: 1.7;
             font-weight: 300;
         }
 
-        .modules-badge {
-            display: inline-block;
-            margin-top: 20px;
-            border: 1px solid #222;
-            padding: 5px 15px;
-            border-radius: 20px;
-            font-size: 9px;
-            color: #444;
-            letter-spacing: 1px;
-        }
+        .highlight { color: #fff; font-weight: 500; }
 
-        /* Micrófono Pulsante */
-        .mic-container {
+        /* Microphone Section */
+        .mic-wrapper {
             position: relative;
-            width: 80px;
-            height: 80px;
-            margin: 0 auto 20px;
+            width: 90px;
+            height: 90px;
+            margin: 0 auto 25px;
             display: flex;
             align-items: center;
             justify-content: center;
         }
 
-        .mic-ring {
+        .pulse-ring {
             position: absolute;
             width: 100%;
             height: 100%;
             border-radius: 50%;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            animation: pulse 2s infinite;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            animation: sonar 2.5s infinite ease-out;
         }
 
-        .mic-button {
-            width: 60px;
-            height: 60px;
-            background: #111;
+        .mic-btn {
+            width: 70px;
+            height: 70px;
+            background: linear-gradient(145deg, #1a1a1a, #0d0d0d);
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             border: 1px solid #333;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: transform 0.2s;
             z-index: 2;
         }
 
-        .mic-button:hover {
-            background: #222;
-            border-color: #555;
-            transform: scale(1.05);
-        }
+        .mic-btn:active { transform: scale(0.95); }
+        .mic-icon { font-size: 28px; filter: grayscale(100%) brightness(200%); }
 
-        .mic-icon { font-size: 24px; }
-
-        .voice-hint {
+        .voice-label {
             font-size: 11px;
-            color: #555;
-            letter-spacing: 1px;
-            margin-bottom: 40px;
-        }
-
-        /* Botón de Entrada */
-        .enter-btn {
-            background: transparent;
-            border: none;
-            color: #fff;
-            font-size: 11px;
-            letter-spacing: 2px;
-            font-weight: bold;
-            opacity: 0.6;
-            cursor: pointer;
-            transition: opacity 0.3s;
+            color: #666;
+            letter-spacing: 1.5px;
+            margin-bottom: 50px;
             text-transform: uppercase;
         }
-        
-        .enter-btn:hover { opacity: 1; }
 
-        /* Animaciones */
-        @keyframes pulse {
-            0% { transform: scale(1); opacity: 0.5; }
-            50% { transform: scale(1.3); opacity: 0; }
-            100% { transform: scale(1); opacity: 0; }
+        /* Entry Button */
+        .secure-entry {
+            background: transparent;
+            border: 1px solid #333;
+            color: #fff;
+            padding: 12px 30px;
+            font-size: 10px;
+            letter-spacing: 3px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-transform: uppercase;
+            border-radius: 4px;
+        }
+        
+        .secure-entry:hover { 
+            background: #fff; 
+            color: #000; 
+            border-color: #fff;
+            box-shadow: 0 0 20px rgba(255,255,255,0.2);
+        }
+
+        /* Animations */
+        @keyframes sonar {
+            0% { transform: scale(0.9); opacity: 0.8; }
+            100% { transform: scale(1.6); opacity: 0; }
         }
         
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
+            from { opacity: 0; transform: translateY(15px); }
             to { opacity: 1; transform: translateY(0); }
         }
     </style>
@@ -168,71 +168,73 @@
 <body>
 
     <div class="container">
-        <!-- Header Tríada -->
+        <!-- Header -->
         <div class="triad">NASA • PENTAGON • SWISS</div>
         <h1>SWISSGATE</h1>
-        <div class="subtitle">ECOSYSTEM v1.0</div>
+        <div class="version">ECOSYSTEM v1.0 // ULTRA-SECURE</div>
 
-        <!-- Descripción -->
-        <div class="description-box">
-            <div class="desc-title">LA TRÍADA DE PODER</div>
-            <p class="desc-text">
-                Ingeniería de precisión espacial. Seguridad de grado militar.<br>
-                Privacidad bancaria helvética.
+        <!-- 55+ Modules Description -->
+        <div class="intel-box">
+            <div class="intel-title">THE WORLD'S MOST ADVANCED FINANCIAL AI</div>
+            <p class="intel-text">
+                Powered by a fusion of <span class="highlight">NASA-grade precision</span>, 
+                <span class="highlight">Pentagon-level security protocols</span>, and 
+                <span class="highlight">Swiss banking neutrality</span>. 
+                <br><br>
+                This is not just an app. It is a sovereign digital fortress comprising 
+                <span class="highlight">55+ active operational modules</span>. From quantum-resistant 
+                encryption to autonomous arbitrage agents, SwissGate represents the pinnacle 
+                of artificial intelligence in global finance.
             </p>
-            <div class="modules-badge">55 MÓDULOS ACTIVOS</div>
         </div>
 
-        <!-- Micrófono -->
-        <div class="mic-container">
-            <div class="mic-ring"></div>
-            <div class="mic-button" onclick="startVoiceRecognition()">
+        <!-- Voice Interface -->
+        <div class="mic-wrapper">
+            <div class="pulse-ring"></div>
+            <div class="mic-btn" onclick="startVoiceRecognition()">
                 <span class="mic-icon">🎙️</span>
             </div>
         </div>
-        <div class="voice-hint" id="voiceStatus">TOCA PARA HABLAR CON QWEN-AI</div>
+        <div class="voice-label" id="voiceStatus">TAP TO SPEAK WITH SWISSGATE</div>
 
-        <!-- Botón Entrada -->
-        <button class="enter-btn" onclick="openSecureSession()">INICIAR SESIÓN SEGURA</button>
+        <!-- Secure Entry -->
+        <button class="secure-entry" onclick="openSecureSession()">INITIATE SECURE SESSION</button>
     </div>
 
     <script>
-        // Función para Iniciar Sesión o redirigir al Dashboard / Chat UI
         function openSecureSession() {
-            // Si tienes una página de chat (ej: /chat.html o la vista principal del dashboard)
-            // Cambia esta ruta según la estructura de tu interfaz de chat
-            window.location.href = '/chat.html'; 
+            // Ajusta según la vista deseada de tu aplicación (ej: /chat.html)
+            window.location.href = '/chat.html';
         }
 
-        // Reconocimiento de Voz nativo
         function startVoiceRecognition() {
             const statusText = document.getElementById('voiceStatus');
             
             if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
-                alert('El reconocimiento de voz no está soportado en este navegador.');
+                alert('Voice recognition is not supported on this browser.');
                 return;
             }
 
             const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
             const recognition = new SpeechRecognition();
 
-            recognition.lang = 'es-ES';
+            recognition.lang = 'en-US';
             recognition.interimResults = false;
 
             recognition.onstart = function() {
-                statusText.innerText = "ESCUCHANDO...";
+                statusText.innerText = "LISTENING...";
                 statusText.style.color = "#FF0000";
             };
 
             recognition.onspeechend = function() {
                 recognition.stop();
-                statusText.innerText = "PROCESANDO CON QWEN-AI...";
+                statusText.innerText = "PROCESSING WITH QWEN-AI...";
                 statusText.style.color = "#888";
             };
 
             recognition.onresult = async function(event) {
                 const transcript = event.results[0][0].transcript;
-                statusText.innerText = "ENVIANDO A CORE...";
+                statusText.innerText = "TRANSMITTING TO CORE...";
 
                 try {
                     const res = await fetch('/api/chat', {
@@ -242,20 +244,20 @@
                     });
                     const data = await res.json();
                     
-                    alert('Qwen AI: ' + (data.reply || data.response || 'Sin respuesta'));
-                    statusText.innerText = "TOCA PARA HABLAR CON QWEN-AI";
-                    statusText.style.color = "#555";
+                    alert('Qwen AI: ' + (data.reply || data.response || 'No response'));
+                    statusText.innerText = "TAP TO SPEAK WITH SWISSGATE";
+                    statusText.style.color = "#666";
                 } catch (err) {
                     console.error(err);
-                    alert('Error conectando con SwissGate Core.');
-                    statusText.innerText = "TOCA PARA HABLAR CON QWEN-AI";
-                    statusText.style.color = "#555";
+                    alert('Error connecting to SwissGate Core.');
+                    statusText.innerText = "TAP TO SPEAK WITH SWISSGATE";
+                    statusText.style.color = "#666";
                 }
             };
 
             recognition.onerror = function(event) {
                 console.error("Speech Error:", event.error);
-                statusText.innerText = "ERROR DE VOZ. REINTENTAR";
+                statusText.innerText = "VOICE ERROR. RETRY";
                 statusText.style.color = "#FF0000";
             };
 
