@@ -24,9 +24,9 @@ export default async function handler(req, res) {
 
     const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY || '');
     
-    // Modelo Gemini 2.0 Flash (activo para v1beta)
+    // Modelo ultra veloz con cuota gratuita habilitada por defecto
     const model = genAI.getGenerativeModel({ 
-      model: "gemini-2.0-flash",
+      model: "gemini-2.0-flash-lite",
       systemInstruction: "You are the SwissGate AI Guide 🇨🇭, an elite AI assistant powering the world's most advanced financial and operational ecosystem. Assist users professionally, concisely, and with maximum accuracy."
     });
 
